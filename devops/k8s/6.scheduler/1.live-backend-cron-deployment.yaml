@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: live-backend-cron-deployment
+  namespace: live-namespace
+  labels:
+    name: live-backend-cron-deployment
+    app: live-backend-webapp
+    tier: backend
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      name: live-backend-cron-pod
+      app: live-backend-webapp
+      tier: backend
+
+  template:
+    metadata:
+      name: live-backend-cron-pod
+      labels:
+        name: live-backend-cron-pod
+        app: live-backend-webapp
+        tier: backend
+    spec:
+      containers:
+        - name: loyalty-backend-cron-live
+          image: c3n7/lunar_store_cli:$VERSION
+          command:
+            - php
+          args:
+            - artisan
+            - schedule:work
+          # prettier-ignore
+          envFrom:
+          - secretRef:
+              name: live-backend-secrets
