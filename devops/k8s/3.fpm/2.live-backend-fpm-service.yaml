@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: live-backend-fpm-service
+  namespace: live-namespace
+  labels:
+    name: live-backend-fpm-service
+    app: live-backend-webapp
+    tier: backend
+
+spec:
+  # type: LoadBalancer
+  ports:
+    - port: 9000
+      targetPort: 9000
+      # nodePort: 30800
+  selector:
+    name: live-backend-fpm-pod
+    app: live-backend-webapp
+    tier: backend

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: live-backend-fpm-deployment
+  namespace: live-namespace
+  labels:
+    name: live-backend-fpm-deployment
+    app: live-backend-webapp
+    tier: backend
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      name: live-backend-fpm-pod
+      app: live-backend-webapp
+      tier: backend
+
+  template:
+    metadata:
+      name: live-backend-fpm-pod
+      labels:
+        name: live-backend-fpm-pod
+        app: live-backend-webapp
+        tier: backend
+    spec:
+      containers:
+        - name: loyalty-backend-fpm-live
+          image: c3n7/lunar_store_fpm_server:$VERSION
+          ports:
+            - containerPort: 9000
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "750m"
+            limits:
+              memory: "1000Mi"
+              cpu: "1500m"
+          # prettier-ignore
+          envFrom:
+          - secretRef:
+              name: live-backend-secrets
