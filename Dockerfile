@@ -42,6 +42,7 @@ WORKDIR /opt/apps/www
 RUN apk update && apk add ${PHP_EXT_HOSTS} && \
     docker-php-ext-configure opcache --enable-opcache && \
     docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype && \
+    docker-php-ext-configure intl && \
     docker-php-ext-install ${PHP_EXTS}
 
 
@@ -62,6 +63,7 @@ WORKDIR /opt/apps/www
 RUN apk update && apk add ${PHP_EXT_HOSTS} && \
     docker-php-ext-configure opcache --enable-opcache && \
     docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype && \
+    docker-php-ext-configure intl && \
     docker-php-ext-install ${PHP_EXTS}
 
 # As FPM uses the www-data user when running our application,
