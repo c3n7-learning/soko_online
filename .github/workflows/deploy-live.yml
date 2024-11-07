@@ -1,0 +1,59 @@
+name: Deploy to Live
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      # https://github.com/orgs/community/discussions/26686#discussioncomment-3396593
+      - name: Get tag name
+        run: |
+          echo "Tag name from github.ref_name: ${{  github.ref_name }}"
+
+      - name: Docker Log In
+        run: |
+          docker logout
+          echo '${{ secrets.DOCKER_PASSWORD }}' | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Build Docker image
+        run: make docker-build VERSION=${{ github.ref_name }}
+
+      - name: Push Docker image
+        run: make docker-push VERSION=${{ github.ref_name }}
+
+      - name: Docker Log Out
+        run: docker logout
+
+      - name: Install ccrypt
+        run: sudo apt install ccrypt
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Install kubeconfig
+        run: |
+          doctl kubernetes cluster kubeconfig save ${{ secrets.K8S_CLUSTER_ID }}
+          kubectl get all
+
+      - name: Decrypt secrets file
+        run: |
+          ccdecrypt -K ${{ secrets.CCRYPT_KEY }} devops/k8s/2.config_secrets/1.live-backend-secrets.encrypted.yaml.cpt
+          mv devops/k8s/2.config_secrets/1.live-backend-secrets.encrypted.yaml devops/k8s/2.config_secrets/1.live-backend-secrets.yaml
+
+      - name: Deploy containers
+        run: cd devops/k8s && make deploy-backend-live VERSION=${{ github.ref_name }}
+
+      - name: Get Quick snapshot of deployment
+        run: |
+          ls
+          kubectl get all
