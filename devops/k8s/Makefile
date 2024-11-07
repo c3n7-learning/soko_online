@@ -18,6 +18,6 @@ deploy-backend-live:
 	VERSION=${VERSION} envsubst < ./4.nginx/2.live-backend-nginx-service.yaml | kubectl apply -f -
 	# Queue worker
 	# VERSION=${VERSION} envsubst < ./5.workers/1.live-backend-beanstalkd-deployment.yaml | kubectl apply -f -
-	VERSION=${VERSION} envsubst < ./5.workers/2.live-backend-worker-deployment.yaml | kubectl apply -f -
+	# VERSION=${VERSION} envsubst < ./5.workers/2.live-backend-worker-deployment.yaml | kubectl apply -f -
 	# Scheduling
-	VERSION=${VERSION} envsubst < ./6.scheduler/1.live-backend-cron-deployment.yaml | kubectl apply -f -
+	# VERSION=${VERSION} envsubst < ./6.scheduler/1.live-backend-cron-deployment.yaml | kubectl apply -f -
