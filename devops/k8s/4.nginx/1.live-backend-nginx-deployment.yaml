@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: loyalty-backend-nginx-live
-          image: c3n7/lunar_store_nginx_server:$VERSION
+          image: c3n7/soko_store_nginx_server:$VERSION
           ports:
             - containerPort: 80
           env:

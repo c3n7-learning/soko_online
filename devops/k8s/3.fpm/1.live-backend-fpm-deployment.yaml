@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: loyalty-backend-fpm-live
-          image: c3n7/lunar_store_fpm_server:$VERSION
+          image: c3n7/soko_store_fpm_server:$VERSION
           ports:
             - containerPort: 9000
           resources:

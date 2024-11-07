@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: loyalty-backend-cli-live
-          image: c3n7/lunar_store_cli:$VERSION
+          image: c3n7/soko_store_cli:$VERSION
           command:
             - php
           args:
