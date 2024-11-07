@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: live-backend-default-worker-deployment
+  namespace: live-namespace
+  labels:
+    name: live-backend-default-worker-deployment
+    app: live-backend-webapp
+    tier: backend
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      name: live-backend-default-worker-pod
+      app: live-backend-webapp
+      tier: backend
+
+  template:
+    metadata:
+      name: live-backend-default-worker-pod
+      labels:
+        name: live-backend-default-worker-pod
+        app: live-backend-webapp
+        tier: backend
+    spec:
+      containers:
+        - name: loyalty-backend-cli-live
+          image: c3n7/lunar_store_cli:$VERSION
+          command:
+            - php
+          args:
+            - artisan
+            - horizon
+          # prettier-ignore
+          envFrom:
+          - secretRef:
+              name: live-backend-secrets
