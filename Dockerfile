@@ -75,7 +75,8 @@ COPY devops/docker/php/conf.d/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY --from=build --chown=www-data:www-data /app /opt/apps/www
 
 RUN mkdir -p /opt/apps/www/storage/logs && \
-    chmod -R 777 /opt/apps/www/storage
+    chmod -R 777 /opt/apps/www/storage && \
+    php artisan storage:link
 
 
 
