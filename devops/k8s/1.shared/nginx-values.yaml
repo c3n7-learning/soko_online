@@ -1,0 +1,26 @@
+controller:
+  replicaCount: 1
+  requests:
+    cpu: 100m
+    memory: 90mi
+service:
+  type: LoadBalancer
+  # externalTrafficPolicy: Local
+  annotations:
+    # Enable proxy protocol
+    service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
+    # Specify whether the DigitalOcean Load Balancer should pass encrypted data to backend droplets
+    service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
+
+    nginx.ingress.kubernetes.io/enable-cors: "false"
+config:
+  use-proxy-protocol: "true"
+  use-forwarded-headers: "true"
+  real-ip-header: "proxy_protocol"
+  compute-full-forwarded-for: "true"
+
+  # keep-alive-requests: "10000"
+  # upstream-keepalive-requests: "1000"
+  # worker-processes: "auto"
+  # max-worker-connections: "65535"
+  # use-gzip: "true"
