@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: live-backend-ingress
+  namespace: live-namespace
+  annotations:
+    cert-manager.io/issuer: live-backend-letsencrypt-nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    # nginx.ingress.kubernetes.io/configuration-snippet: |
+    #   add_header X-Frame-Options "sameorigin";
+    #   add_header X-Content-Type-Options "nosniff";
+    #   charset utf-8;
+    #   include "/etc/nginx/mime.types";
+spec:
+  rules:
+    - host: lunar.tefabi.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: live-backend-nginx-service
+                port:
+                  number: 80
+
+  # Already done by the frontend
+  tls:
+    # prettier-ignore
+    - hosts:
+      - lunar.tefabi.com
+      # Name of the secret used to terminate TLS traffic on port 443.
+      secretName: live-backend-letsencrypt-nginx-secret
+
+  ingressClassName: nginx

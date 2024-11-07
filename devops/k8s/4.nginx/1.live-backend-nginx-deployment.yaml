@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: live-backend-nginx-deployment
+  namespace: live-namespace
+  labels:
+    name: live-backend-nginx-deployment
+    app: live-backend-webapp
+    tier: backend
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      name: live-backend-nginx-pod
+      app: live-backend-webapp
+      tier: backend
+
+  template:
+    metadata:
+      name: live-backend-nginx-pod
+      labels:
+        name: live-backend-nginx-pod
+        app: live-backend-webapp
+        tier: backend
+    spec:
+      containers:
+        - name: loyalty-backend-nginx-live
+          image: c3n7/lunar_store_nginx_server:$VERSION
+          ports:
+            - containerPort: 80
+          env:
+            # Inject the FPM Host
+            - name: FPM_HOST
+              value: live-backend-fpm-service:9000
