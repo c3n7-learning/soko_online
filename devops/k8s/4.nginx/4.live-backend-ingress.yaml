@@ -14,7 +14,7 @@ metadata:
     #   include "/etc/nginx/mime.types";
 spec:
   rules:
-    - host: lunar.tefabi.com
+    - host: soko.tefabi.com
       http:
         paths:
           - path: /
@@ -29,7 +29,7 @@ spec:
   tls:
     # prettier-ignore
     - hosts:
-      - lunar.tefabi.com
+      - soko.tefabi.com
       # Name of the secret used to terminate TLS traffic on port 443.
       secretName: live-backend-letsencrypt-nginx-secret
 
