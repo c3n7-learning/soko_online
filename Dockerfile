@@ -7,7 +7,7 @@ ARG PHP_EXT_HOSTS="zip libzip-dev freetype-dev libjpeg-turbo-dev libpng-dev libw
 # ========================================
 FROM composer:lts as build
 COPY . /app/
-RUN composer install --prefer-dist --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs
+RUN composer install --optimize-autoloader --no-interaction --ignore-platform-reqs
 
 
 # ========================================
