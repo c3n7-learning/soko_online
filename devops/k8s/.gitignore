@@ -1,0 +1,5 @@
+*kubeconfig.yaml
+*secrets.*
+!*secrets.sample.yaml
+!*secrets.sample.yml
+!*secrets.*.cpt
