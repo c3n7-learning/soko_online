@@ -1,6 +1,6 @@
 # https://github.com/docker-library/php/issues/797
 ARG PHP_EXTS="pdo pdo_mysql pcntl zip gd gmp intl"
-ARG PHP_EXT_HOSTS="zip libzip-dev freetype-dev libjpeg-turbo-dev libpng-dev libwebp-dev gmp-dev mysql mysql-client mariadb-connector-c"
+ARG PHP_EXT_HOSTS="zip libzip-dev freetype-dev libjpeg-turbo-dev libpng-dev libwebp-dev gmp-dev mysql mysql-client mariadb-connector-c icu icu-dev"
 
 # ========================================
 # Install extensions
